@@ -16,13 +16,16 @@ It uses **two stacks** to manage undo and redo operations efficiently.
 
 ---
 
-## Features
+## Features 
 
 - Add text continuously
 - Undo previous actions
 - Redo undone actions
 - Command-line interactive menu
-
+- Save text to file
+- Load text from file
+- Search for words in text
+- Clear text
 ---
 
 ## Data Structure Used
