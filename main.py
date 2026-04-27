@@ -1,108 +1,157 @@
-# main.py 
+# main.py
 
 from stack import Stack
 
-# Create two stacks:
-# undo_stack → stores previous states
-# redo_stack → stores undone states
+# Create stacks
 undo_stack = Stack()
 redo_stack = Stack()
 
-# This holds the current text in the editor
+# Current text in editor
 current_text = ""
 
+
+# ================= TEXT FUNCTIONS =================
 
 def type_text(new_text):
     global current_text, redo_stack
 
-    # Save current state BEFORE making changes (for undo)
+    # Save current state for undo
     undo_stack.push(current_text)
 
-    # Add space only if text already exists, then add new text
+    # Add space if needed
     if current_text:
         current_text += " " + new_text
     else:
         current_text = new_text
 
-    # Clear redo history because new action invalidates redo
+    # Clear redo stack
     redo_stack = Stack()
 
-    # Show updated text
     print("Text:", current_text)
 
 
 def undo():
     global current_text
 
-    # Check if there is something to undo
     if not undo_stack.is_empty():
-        # Save current state to redo stack
         redo_stack.push(current_text)
-
-        # Restore previous state
         current_text = undo_stack.pop()
     else:
         print("Nothing to undo")
 
-    # Show updated text
     print("Text:", current_text)
 
 
 def redo():
     global current_text
 
-    # Check if there is something to redo
     if not redo_stack.is_empty():
-        # Save current state to undo stack
         undo_stack.push(current_text)
-
-        # Restore last undone state
         current_text = redo_stack.pop()
     else:
         print("Nothing to redo")
 
-    # Show updated text
     print("Text:", current_text)
 
 
-# ================= USER MENU =================
+# ================= FILE FEATURES =================
+
+def save_to_file():
+    global current_text
+
+    filename = input("Enter filename (e.g. file.txt): ")
+
+    try:
+        with open(filename, "w") as file:
+            file.write(current_text)
+
+        print("File saved successfully")
+
+    except Exception as e:
+        print("Error saving file:", e)
+
+
+def load_from_file():
+    global current_text
+
+    filename = input("Enter filename to load: ")
+
+    try:
+        with open(filename, "r") as file:
+            current_text = file.read()
+
+        print("File loaded successfully")
+        print("Text:", current_text)
+
+    except Exception as e:
+        print("Error loading file:", e)
+
+
+def clear_text():
+    global current_text
+
+    undo_stack.push(current_text)  # allow undo
+    current_text = ""
+
+    print("Text cleared")
+
+
+def search_word():
+    global current_text
+
+    word = input("Enter word to search: ")
+
+    if word in current_text:
+        print(f"'{word}' found in text ")
+    else:
+        print(f"'{word}' not found ❌")
+
+
+# ================= MENU =================
 
 def menu():
     while True:
-        # Display menu options
         print("\n--- TEXT EDITOR ---")
         print("1. Type Text")
         print("2. Undo")
         print("3. Redo")
-        print("4. Exit")
+        print("4. Save to File")
+        print("5. Load from File")
+        print("6. Clear Text")
+        print("7. Search Word")
+        print("8. Exit")
 
-        # Get user choice
         choice = input("Choose: ")
 
         if choice == "1":
-            # Ask user for new text input
             new_text = input("Enter text: ")
-
-            # Call function to update text
             type_text(new_text)
 
         elif choice == "2":
-            # Undo last action
             undo()
 
         elif choice == "3":
-            # Redo last undone action
             redo()
 
         elif choice == "4":
-            # Exit program
-            print("Goodbye 👋")
+            save_to_file()
+
+        elif choice == "5":
+            load_from_file()
+
+        elif choice == "6":
+            clear_text()
+
+        elif choice == "7":
+            search_word()
+
+        elif choice == "8":
+            print("Goodbye")
             break
 
         else:
-            # Handle invalid input
             print("Invalid choice")
 
 
-# Start the program
+# Run program
 menu()

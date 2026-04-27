@@ -16,7 +16,7 @@ It uses **two stacks** to manage undo and redo operations efficiently.
 
 ---
 
-## ⚙️ Features
+## Features
 
 - Add text continuously
 - Undo previous actions
