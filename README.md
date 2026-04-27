@@ -1,118 +1,61 @@
-
-
-
+# Stack Text Editor (Undo/Redo System)
 
 This project demonstrates how stacks (LIFO data structure) are used in real-world applications like text editors.
 
+---
 
-
-\---
-
-
-
-\## Project Overview
-
-
+## Project Overview
 
 This application simulates a simple text editor where users can:
 
-\- Type text
+- Type text
+- Undo actions
+- Redo actions
 
-\- Undo actions
+It uses **two stacks** to manage undo and redo operations efficiently.
 
-\- Redo actions
+---
 
+## ⚙️ Features
 
+- Add text continuously
+- Undo previous actions
+- Redo undone actions
+- Command-line interactive menu
 
-It uses \*\*two stacks\*\* to manage undo and redo operations efficiently.
+---
 
+## Data Structure Used
 
-
-\---
-
-
-
-\## ⚙️ Features
-
-
-
-\-  Add text continuously
-
-\-  Undo previous actions
-
-\-  Redo undone actions
-
-\-  Command-line interactive menu
-
-
-
-\---
-
-
-
-\## Data Structure Used
-
-
-
-\### Stack (LIFO - Last In First Out)
-
-
+### Stack (LIFO - Last In First Out)
 
 Two stacks are used:
 
+- **Undo Stack**
+  - Stores previous states of text
 
+- **Redo Stack**
+  - Stores undone states
 
-\- \*\*Undo Stack\*\*
+---
 
-&#x20; - Stores previous states of text
+## How Undo/Redo Works
 
-\- \*\*Redo Stack\*\*
+1. When typing:
+   - Current text is saved to undo stack
+   - Redo stack is cleared
 
-&#x20; - Stores undone states
+2. Undo:
+   - Current text → pushed to redo stack
+   - Last state → popped from undo stack
 
+3. Redo:
+   - Current text → pushed to undo stack
+   - Last undone state → popped from redo stack
 
+---
 
-\---
-
-
-
-\## How Undo/Redo Works
-
-
-
-1\. When typing:
-
-&#x20;  - Current text is saved to undo stack
-
-&#x20;  - Redo stack is cleared
-
-
-
-2\. Undo:
-
-&#x20;  - Current text → pushed to redo stack
-
-&#x20;  - Last state → popped from undo stack
-
-
-
-3\. Redo:
-
-&#x20;  - Current text → pushed to undo stack
-
-&#x20;  - Last undone state → popped from redo stack
-
-
-
-\---
-
-
-
-\## How to Run
-
-
+## How to Run
 
 ```bash
-
 python main.py
-
