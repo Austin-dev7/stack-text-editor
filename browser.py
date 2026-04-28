@@ -1,5 +1,6 @@
 # browser.py
 
+import webbrowser  # allows opening real websites 
 from stack import Stack
 
 # Create stacks
@@ -21,8 +22,15 @@ def visit_page(url):
     # Update current page
     current_page = url
 
-    # Clear forward history
+    # Clear forward history (new page resets forward stack)
     forward_stack = Stack()
+
+    # Ensure URL is valid
+    if not url.startswith("http"):
+        url = "https://" + url
+
+    # Open real browser 
+    webbrowser.open(url)
 
     print("Current page:", current_page)
 
@@ -30,11 +38,12 @@ def visit_page(url):
 def go_back():
     global current_page
 
+    # Check if we can go back
     if not back_stack.is_empty():
         # Save current page to forward stack
         forward_stack.push(current_page)
 
-        # Go back to previous page
+        # Go back
         current_page = back_stack.pop()
     else:
         print("No pages to go back")
@@ -45,6 +54,7 @@ def go_back():
 def go_forward():
     global current_page
 
+    # Check if we can go forward
     if not forward_stack.is_empty():
         # Save current page to back stack
         back_stack.push(current_page)
@@ -70,7 +80,7 @@ def menu():
         choice = input("Choose: ")
 
         if choice == "1":
-            url = input("Enter website: ")
+            url = input("Enter website (e.g. youtube.com): ")
             visit_page(url)
 
         elif choice == "2":
